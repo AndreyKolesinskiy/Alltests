@@ -1,28 +1,27 @@
-var page = require('../PO/test6.pageobject.js');
+var page = require('../PO/marketingPage.js');
 var data = require('../Jsons/test6.json');
-var util = require ('../PO/utilmethods');
+var util = require ('../PO/utilmethods.js');
+
 describe('Test6', function () {
     beforeAll(function () {
         browser.get(data.server);
     });
-
     it('Checking title', function () {
-        page.chooseMarketingSubMenu();
+        util.selectMenuAndSubmenu('MARKETING', 'Publikationspflege');
         expect(page.header.getText()).toBe(data.pageTitle, 'title is incorrect');
         });
     it('Choosing record', function () {
         util.selectRecord(data.folder, data.subFolder, data.record);
         });
     it('Choosing new menu and checking it', function () {
-        page.einkaufMenu.click();
-        page.chooseEinkaufSubMenu();
+        util.selectMenuAndSubmenu('EINKAUF', 'Artikelzuordnung');
         expect(page.header.getText()).toBe(data.newPageTitle, 'title is incorrect');
     });
     it('Creating new record', function () {
-        page.plusButton.click();
-        page.enteringPublicationsteil.click();
-        page.enteringSeite.click();
-        page.anleigenButton.click();
+        page.plusButtonEinkauf.click();
+        page.enterPublicationsteil('3911');
+        page.enterSeite('Titel');
+        page.anlegenButton.click();
         expect(page.createdCel.isPresent()).toBe(true);
     });
     it('Entering new number', function () {

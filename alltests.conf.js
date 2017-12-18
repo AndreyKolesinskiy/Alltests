@@ -1,7 +1,12 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: ['./Specs/*.spec.js'],
-
+    params:{
+        visibilityWaitingTime: {
+            fileDownloading: 8000,
+            elementDrawing: 6000
+        }
+    },
     multiCapabilities: [{
         'browserName': 'chrome',
         chromeOptions: {
