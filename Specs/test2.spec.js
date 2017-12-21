@@ -1,14 +1,18 @@
 var page = require('../PO/marketingPage.js');
-var util = require ('../PO/utilmethods.js');
+var util = require('../PO/utilmethods.js');
+var data = require('../Jsons/test.json');
 
 describe('Test2', function () {
-    beforeAll( function (){browser.get('http://vtest16:8093/catalog-planning/#/productionsEditor');
+    beforeAll(function () {
+        browser.get(data.server);
     });
-    it ('Checking title', function () {
-       util.selectMenuAndSubmenu('STAMMDATEN', 'Saisons');
-       expect(page.header.getText()).toBe('PuC.Marketing Saisons', 'title is incorrect');
+
+    it('Checking title', function () {
+        util.selectMenuAndSubmenu('STAMMDATEN', 'Saisons');
+        expect(page.header.getText()).toBe('PuC.Marketing Saisons', 'title is incorrect');
     });
-    it ('Choosing number and checking input values', function() {
+
+    it('Choosing number and checking input values', function () {
         page.saisonsNumber.click();
         expect(page.sasonsName.getAttribute('value')).toBe('34', 'name is incorrect');
         expect(page.saisonsTyp.getAttribute('value')).toBe('Herbst/Winter 2012/2013', 'saisontyp is incorrect');

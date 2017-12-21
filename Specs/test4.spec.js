@@ -1,16 +1,19 @@
 var page = require('../PO/marketingPage.js');
-var util = require ('../PO/utilmethods.js');
-var modal = require ('../PO/publicationModal.js')
+var util = require('../PO/utilmethods.js');
+var modal = require('../PO/publicationModal.js');
+var data = require('../Jsons/test.json');
 
 describe('Test4', function () {
     beforeAll(function () {
-        browser.get('http://vtest16:8093/catalog-planning/#/productionsEditor');
+        browser.get(data.server);
     });
-    it ('Checking title', function () {
+
+    it('Checking title', function () {
         util.selectMenuAndSubmenu('MARKETING', 'Publikationspflege');
         expect(page.header.getText()).toBe('PuC.Marketing Publikationspflege', 'title is incorrect');
     });
-    it ('Adding new record and checking it', function () {
+
+    it('Adding new record and checking it', function () {
         page.plusButton.click();
         modal.enterSaison('31, Frühling/Sommer 2011');
         modal.enterNummer(modal.randomInteger(1000, 9999));
@@ -21,9 +24,10 @@ describe('Test4', function () {
         modal.enterLand('Deutschland');
         modal.enterKommentar.sendKeys('test');
         modal.alegenButton.click();
-        page.checkNewRecord();
+        page.checkNewRecord('Schwarzpreis ET: 05.05.2017');
     });
-    it ('Deleting new record and checking it', function () {
+
+    it('Deleting new record and checking it', function () {
         page.newRecord.click();
         page.trashButton.click();
         page.yesButton.click();

@@ -1,37 +1,44 @@
 var page = require('../PO/marketingPage.js');
-var util = require ('../PO/utilmethods.js');
-var modal = require ('../PO/vorteileModal.js');
+var util = require('../PO/utilmethods.js');
+var modal = require('../PO/vorteileModal.js');
+var data = require('../Jsons/test.json');
 
 describe('Test3', function () {
-    beforeAll (function (){browser.get('http://vtest16:8093/catalog-planning/#/productionsEditor');
+    beforeAll(function () {
+        browser.get(data.server);
     });
-    it ('Checking title', function () {
+
+    it('Checking title', function () {
         util.selectMenuAndSubmenu('STAMMDATEN', 'Vorteile');
         expect(page.header.getText()).toBe('PuC.Marketing Vorteile', 'title is incorrect');
     });
-    it ('Choosing name and checking it', function () {
+
+    it('Choosing name and checking it', function () {
         page.vorteileRecord.click();
         expect(page.vorteileName.getAttribute('value')).toBe('VR_2', 'name is incorrect');
     });
-    it ('Creating new name', function () {
+
+    it('Creating new name', function () {
         page.plusButton.click();
         modal.name.sendKeys('Test_create');
         modal.anlegenButton.click();
-        expect(page.newName.isDisplayed()).toBe(true, 'new name was not created');
+        page.checkNameExists('Test_create')
     });
-    it('Changing Test_create to Test_edit and checking it', function (){
-        page.newName.click();
+
+    it('Changing Test_create to Test_edit and checking it', function () {
+        page.selectName('Test_create');
         expect(page.vorteileName.getAttribute('value')).toBe('Test_create', 'new name is incorrect');
         page.vorteileName.clear();
         page.vorteileName.sendKeys('Test_edit');
         page.vorteileSaveButton.click();
-        expect(page.changedName.isDisplayed()).toBe(true, 'new name was not changed');
+        page.checkNameExists('Test_edit')
     });
-    it('Deleting created name and checking that it is not displayed', function (){
-        page.changedName.click();
+
+    it('Deleting created name and checking that it is not displayed', function () {
+        page.selectName('Test_edit');
         page.minusButton.click();
         page.yesButton.click();
-        expect(page.changedName.isPresent()).toBe(false, 'changed name was not deleted');
+        page.checkNameDoesntExist('Test_edit');
     });
 });
 
